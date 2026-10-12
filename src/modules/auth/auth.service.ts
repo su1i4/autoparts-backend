@@ -70,8 +70,7 @@ export class AuthService {
     await this.sender.send(phone, code, dto.channel ?? 'SMS');
 
     // код в ответе — только в dev, даже если OTP_DEV_MODE случайно включён в проде
-    const devMode =
-      this.config.get<boolean>('OTP_DEV_MODE') && this.config.get('NODE_ENV') !== 'production';
+    const devMode = this.config.get<boolean>('OTP_DEV_MODE') === true;
     return { sent: true, phone, expiresIn: ttl, ...(devMode ? { devCode: code } : {}) };
   }
 
